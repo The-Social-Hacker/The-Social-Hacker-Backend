@@ -9,9 +9,13 @@
   "author": "Elliot Briant",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "dotenv": "^5.0.1",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "path": "^0.12.7",
+    "sequelize": "^4.37.7"
   }
 }
