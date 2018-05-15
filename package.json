@@ -1,0 +1,17 @@
+{
+  "name": "socialhacker",
+  "version": "1.0.0",
+  "description": "This is my personal porfolio/blog",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Elliot Briant",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3"
+  }
+}
