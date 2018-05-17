@@ -102,7 +102,13 @@ module.exports = (app) => {
         };
       });
     };
+  });
 
-  })
-
+  /************************************
+  *         LOGOUT ROUTE
+  ************************************/
+  app.get('/logout', (req, res) => {
+    res.clearCookie('jwtToken');
+    res.redirect('/')
+  });
 };
