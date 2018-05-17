@@ -1,5 +1,5 @@
 /*********************************
-*     LOGIN ROUTE
+*     USER ROUTE
 *********************************/
 var db = require('../db');
 var jwt = require('jsonwebtoken');
@@ -7,6 +7,10 @@ var bcrypt = require('bcrypt');
 const auth = require('../auth.js');
 
 module.exports = (app) => {
+
+/**************************************
+*             SIGNUP
+**************************************/
 
   //INDEX
   app.get('/signup', (req, res) => {
@@ -68,5 +72,37 @@ module.exports = (app) => {
       };
     });
   });
+
+/************************************
+*             LOGIN
+************************************/
+
+  //INDEX
+  app.get('/login', (req, res) => {
+    res.send('THIS IS THE LOGIN PAGE')
+  });
+
+  // Comparing the password given matches
+  // the one in the database
+  app.post('/login', (req, res) => {
+    console.log("username", req.body.username)
+    models.User.findOne({where: {username: req.body.username}}).then(data) => {
+      bcrypt.compare(req.body.password, data.password,(err, result) => {
+        if(err) {
+          res.status.(400)
+          res.json({msg: 'ERROR: password did not match'}, err)
+        }
+        if(result){
+          //Set authentication cookie
+          res.json({msg: 'resulting all results'}, result)
+          auth.setUserIDCookie(data, res);
+          res.redirect('/')
+        } else {
+          res.json({msg: 'wrong username or password'})
+        };
+      });
+    };
+
+  })
 
 };
