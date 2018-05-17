@@ -72,7 +72,7 @@ app.use(verifyAuthentication)
 /*****************************************
 *          ROUTES LOAD
 *****************************************/
-
+require('./controlers/index.js')(app);
 
 /****************************************
 *         PORT LISTENER
