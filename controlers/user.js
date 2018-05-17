@@ -1,10 +1,11 @@
 /*********************************
 *     USER ROUTE
 *********************************/
-const db = require('../db');
+const db = require('../db/models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const auth = require('../auth.js');
+// const models = require('../db/models');
 
 module.exports = (app) => {
 
@@ -33,13 +34,13 @@ module.exports = (app) => {
         var newUser = {
           username: req.body.username,
           password: hash
-        };
-        models.User.create(newUser, {w: 1}).then((savedUser) => {
+        }
+        db.User.create(newUser, {w: 1}).then((savedUser) => {
           //console.log("saved", savedUser.first)
           auth.setUserIDCookie(savedUser, res);
           return res.status(200).send({ message: 'Created user' });
         }).catch((err) => {
-          if (err) => {
+          if (err){
             res.json(err);
           }
         });
@@ -85,24 +86,29 @@ module.exports = (app) => {
   // Comparing the password given matches
   // the one in the database
   app.post('/login', (req, res) => {
-    console.log("username", req.body.username)
-    models.User.findOne({where: {username: req.body.username}}).then(data) => {
-      bcrypt.compare(req.body.password, data.password,(err, result) => {
-        if(err) {
-          res.status.(400)
-          res.json({msg: 'ERROR: password did not match'}, err)
-        }
-        if(result){
-          //Set authentication cookie
-          res.json({msg: 'resulting all results'}, result)
-          auth.setUserIDCookie(data, res);
-          res.redirect('/')
-        } else {
-          res.json({msg: 'wrong username or password'})
-        };
-      });
-    };
+      // console.log("email", req.body.email)
+       models.User.findOne({where:{username: req.body.username}}).then(function(data) {
+                  // console.log("Returned Data", data)
+                  //  console.log("db email", data.email)
+                  //  console.log("DB User Password", data.password)
+                  //  console.log("client email", req.body.email)
+                  // console.log("client submitted passwd", req.body.password)
+         bcrypt.compare(req.body.password, data.password, function(err, result) {
+              if(err) {
+                   res.status(400)
+                   res.json({msg: 'ERROR: password did not match'}, err)
+              }
+              if(result){
+                  //Set authentication cookie
+                  res.json({msg: 'resulting all results'}, result)
+                  auth.setUserIDCookie(data, res);
+                  res.redirect('/')
+              }else{
+                  res.json({msg: 'wrong username or password'})
+              }
+          });
   });
+});
 
   /************************************
   *         LOGOUT ROUTE
