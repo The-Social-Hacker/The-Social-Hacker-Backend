@@ -1,9 +1,9 @@
 /*********************************
 *     USER ROUTE
 *********************************/
-var db = require('../db');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
+const db = require('../db');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const auth = require('../auth.js');
 
 module.exports = (app) => {
