@@ -73,6 +73,7 @@ app.use(verifyAuthentication)
 *          ROUTES LOAD
 *****************************************/
 require('./controlers/index.js')(app);
+require('./controlers/user.js')(app);
 
 /****************************************
 *         PORT LISTENER
