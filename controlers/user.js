@@ -27,18 +27,20 @@ module.exports = (app) => {
   });
 
   //CREATE
-  app.post('signup', (req, res) => {
+  app.post('/signup', (req, res) => {
+    //hash password
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(req.body.password, salt, (err, hash) => {
-        console.log("hash >>" + hash);
+        console.log("hash >> " + hash);
         var newUser = {
           username: req.body.username,
           password: hash
         }
-        db.User.create(newUser, {w: 1}).then((savedUser) => {
+        db.User.create(newUser, {w:1}).then((savedUser) => {
           //console.log("saved", savedUser.first)
           auth.setUserIDCookie(savedUser, res);
           return res.status(200).send({ message: 'Created user' });
+          res.redirect('/')
         }).catch((err) => {
           if (err){
             res.json(err);
@@ -87,12 +89,12 @@ module.exports = (app) => {
   // the one in the database
   app.post('/login', (req, res) => {
       // console.log("email", req.body.email)
-       models.User.findOne({where:{username: req.body.username}}).then(function(data) {
+       db.User.findOne({where:{username: req.body.username}}).then(function(data) {
                   // console.log("Returned Data", data)
                   //  console.log("db email", data.email)
                   //  console.log("DB User Password", data.password)
                   //  console.log("client email", req.body.email)
-                  // console.log("client submitted passwd", req.body.password)
+                  // console.log("client submitted password", req.body.password)
          bcrypt.compare(req.body.password, data.password, function(err, result) {
               if(err) {
                    res.status(400)

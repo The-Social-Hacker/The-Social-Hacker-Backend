@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const expressSanitizer = require('express-sanitizer');
 
 
 // Initializing
@@ -67,6 +68,7 @@ app.use(express.static(__dirname));
 app.use(express.static('./public'));
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());
 app.use(verifyAuthentication)
 
 /*****************************************
