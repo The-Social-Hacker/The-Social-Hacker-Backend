@@ -90,11 +90,6 @@ module.exports = (app) => {
   app.post('/login', (req, res) => {
       // console.log("email", req.body.email)
        db.User.findOne({where:{username: req.body.username}}).then(function(data) {
-                  // console.log("Returned Data", data)
-                  //  console.log("db email", data.email)
-                  //  console.log("DB User Password", data.password)
-                  //  console.log("client email", req.body.email)
-                  // console.log("client submitted password", req.body.password)
          bcrypt.compare(req.body.password, data.password, function(err, result) {
               if(err) {
                    res.status(400)
